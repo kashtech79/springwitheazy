@@ -61,10 +61,10 @@ public class ProjectSecurityConfig extends WebSecurityConfigurerAdapter {
 //         auth.userDetailsService(userDetailsService);
 //     }
 
-    @Bean
-    public UserDetailsService userDetailsService(DataSource dataSource){
-        return new JdbcUserDetailsManager(dataSource);
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService(DataSource dataSource){
+//        return new JdbcUserDetailsManager(dataSource);
+//    }
      @Bean
      public PasswordEncoder passwordEncoder(){
         return NoOpPasswordEncoder.getInstance();
