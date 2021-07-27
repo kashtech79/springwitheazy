@@ -11,6 +11,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class ProjectSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -48,16 +51,20 @@ public class ProjectSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .passwordEncoder(NoOpPasswordEncoder.getInstance());
 //    }
 
-     @Override
-     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-         InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
-         UserDetails user = User.withUsername("admin").password("12345").authorities("admin").build();
-         UserDetails user1 = User.withUsername("user").password("12345").authorities("read").build();
-         userDetailsService.createUser(user);
-         userDetailsService.createUser(user1);
-         auth.userDetailsService(userDetailsService);
-     }
+//     @Override
+//     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//         InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
+//         UserDetails user = User.withUsername("admin").password("12345").authorities("admin").build();
+//         UserDetails user1 = User.withUsername("user").password("12345").authorities("read").build();
+//         userDetailsService.createUser(user);
+//         userDetailsService.createUser(user1);
+//         auth.userDetailsService(userDetailsService);
+//     }
 
+    @Bean
+    public UserDetailsService userDetailsService(DataSource dataSource){
+        return new JdbcUserDetailsManager(dataSource);
+    }
      @Bean
      public PasswordEncoder passwordEncoder(){
         return NoOpPasswordEncoder.getInstance();
